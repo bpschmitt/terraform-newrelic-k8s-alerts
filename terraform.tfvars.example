@@ -1,0 +1,3 @@
+account_id      = "YOUR NEW RELIC ACCOUNT ID"
+user_api_key    = "YOUR NEW RELIC USER API KEY"
+cluster_name    = "YOUR KUBERNETES CLUSTER NAME"

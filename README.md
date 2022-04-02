@@ -1,1 +1,16 @@
 # terraform-newrelic-k8s-alerts
+
+## Kubernetes Default Alert Policy
+
+### Data Plane
+
+- ReplicaSet Doesn't Have Desired Number of Pods
+- Container Memory Utilization % is Too High
+- Container CPU Utilization % is Too High
+
+### Control Plane
+
+- ETCD Open File Descriptors
+- ETCD Has No Leader
+- Controller Manager Has No Leader
+- Scheduler Has No Leader

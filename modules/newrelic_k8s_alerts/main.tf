@@ -15,7 +15,7 @@ resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
   account_id                     = var.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
   type                           = "static"
-  name                           = "Container CPU Utilization"
+  name                           = "Container: High CPU Utilization"
   description                    = "Alert when container exceeds its CPU Utilization threshold. (cpuCoresUsed / cpuLimitCores) * 100"
 #   runbook_url                    = "https://www.example.com"
   enabled                        = true
@@ -48,3 +48,74 @@ resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
     threshold_occurrences = "ALL"
   }
 }
+
+resource "newrelic_nrql_alert_condition" "container_memory_utilization" {
+  account_id                     = var.account_id
+  policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
+  type                           = "static"
+  name                           = "Container: High Memory Utilization"
+  description                    = "Alert when container exceeds its Memory Utilization threshold"
+#   runbook_url                    = "https://www.example.com"
+  enabled                        = true
+  violation_time_limit_seconds   = 3600
+  fill_option                    = "last_value"
+#   fill_value                     = 1.0
+  aggregation_window             = 60
+  aggregation_method             = "event_flow"
+  aggregation_delay              = 60
+  expiration_duration            = 60
+  open_violation_on_expiration   = true
+  close_violations_on_expiration = true
+  slide_by                       = 30
+
+  nrql {
+    query = "from K8sContainerSample select max(memoryWorkingSetUtilization) where clusterName = '${var.cluster_name}' facet containerName, podName"
+  }
+
+  critical {
+    operator              = "above"
+    threshold             = 85
+    threshold_duration    = 120
+    threshold_occurrences = "ALL"
+  }
+
+  warning {
+    operator              = "above"
+    threshold             = 70
+    threshold_duration    = 120
+    threshold_occurrences = "ALL"
+  }
+}
+
+resource "newrelic_nrql_alert_condition" "replicaset_desired_pods" {
+  account_id                     = var.account_id
+  policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
+  type                           = "static"
+  name                           = "ReplicaSet: PodsDesired < PodsReady"
+  description                    = "Alert when ReplicaSet does not have correct number of PodsDesired"
+#   runbook_url                    = "https://www.example.com"
+  enabled                        = true
+  violation_time_limit_seconds   = 3600
+  fill_option                    = "last_value"
+#   fill_value                     = 1.0
+  aggregation_window             = 60
+  aggregation_method             = "event_flow"
+  aggregation_delay              = 60
+  expiration_duration            = 60
+  open_violation_on_expiration   = true
+  close_violations_on_expiration = true
+  slide_by                       = 30
+
+  nrql {
+    query = "FROM K8sReplicasetSample select latest(podsDesired) - latest(podsReady) as 'result' where clusterName = '${var.cluster_name}' facet replicasetName, deploymentName"
+  }
+
+  critical {
+    operator              = "above"
+    threshold             = 0
+    threshold_duration    = 120
+    threshold_occurrences = "ALL"
+  }
+}
+
+

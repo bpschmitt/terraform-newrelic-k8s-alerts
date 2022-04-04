@@ -21,6 +21,7 @@ No modules.
 | [newrelic_alert_policy.newrelic_k8s_policy](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/alert_policy) | resource |
 | [newrelic_nrql_alert_condition.container_cpu_utilization](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |
 | [newrelic_nrql_alert_condition.container_memory_utilization](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |
+| [newrelic_nrql_alert_condition.etcd_has_leader](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |
 | [newrelic_nrql_alert_condition.etcd_open_file_descriptors](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |
 | [newrelic_nrql_alert_condition.liveness_probe_failure](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |
 | [newrelic_nrql_alert_condition.node_not_ready](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |

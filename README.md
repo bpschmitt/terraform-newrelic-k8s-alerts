@@ -12,15 +12,15 @@ terraform apply
 
 ### Data Plane
 
-- ReplicaSet Doesn't Have Desired Number of Pods
-- Container Memory Utilization % is Too High
-- Container CPU Utilization % is Too High
-- Pod unable to be scheduled
-- Pod is not ready
+- [x] ReplicaSet Doesn't Have Desired Number of Pods
+- [x] Container Memory Utilization % is Too High
+- [x] Container CPU Utilization % is Too High
+- [x] Pod unable to be scheduled
+- [x] Pod is not ready
 
 ### Control Plane
 
-- ETCD Open File Descriptors
-- ETCD Has No Leader
+- [x] ETCD Open File Descriptors
+- [x] ETCD Has No Leader
 - Controller Manager Has No Leader
 - Scheduler Has No Leader

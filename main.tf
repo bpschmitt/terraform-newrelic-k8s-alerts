@@ -1,3 +1,4 @@
+# Configure the New Relic provider
 terraform {
   required_version = "~> 1.0"
   required_providers {
@@ -7,18 +8,19 @@ terraform {
   }
 }
 
-# Configure the New Relic provider
 provider "newrelic" {
   account_id = var.account_id
   api_key = var.user_api_key    # usually prefixed with 'NRAK'
   region = "US"                    # Valid regions are US and EU
 }
 
-module "k8s_alerts" {
+module "newrelic_k8s_alerts" {
 	source = "./modules/newrelic_k8s_alerts"
     cluster_name = var.cluster_name
     account_id = var.account_id
-	# alert_channel_ids = [data.newrelic_alert_channel.alert_channel.id]
+    enable_pods_containers = true
+    enable_nodes = false
+    # enable_control_plane = false
 
 	# service = {
 	# 	name                       = "WebPortal"

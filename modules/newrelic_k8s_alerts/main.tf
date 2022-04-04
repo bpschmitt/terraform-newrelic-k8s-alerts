@@ -2,23 +2,23 @@ terraform {
   required_version = "~> 1.0"
   required_providers {
     newrelic = {
-      source  = "newrelic/newrelic"
+      source = "newrelic/newrelic"
     }
   }
 }
 
 locals {
-  cluster_name  = var.cluster_name
-  account_id    = var.account_id
+  cluster_name = var.cluster_name
+  account_id   = var.account_id
 }
 
 resource "newrelic_alert_policy" "newrelic_k8s_policy" {
-	name = "Kubernetes Policy - ${local.cluster_name}"
+  name = "Kubernetes Policy - ${local.cluster_name}"
 }
 
 resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
 
-  count                          = var.enable_pods_containers ? 1 : 0
+  count = var.enable_pods_containers ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -57,7 +57,7 @@ resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
 
 resource "newrelic_nrql_alert_condition" "container_memory_utilization" {
 
-  count                          = var.enable_pods_containers ? 1 : 0
+  count = var.enable_pods_containers ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -97,7 +97,7 @@ resource "newrelic_nrql_alert_condition" "container_memory_utilization" {
 # Low vs No replicas
 resource "newrelic_nrql_alert_condition" "replicaset_desired_pods" {
 
-  count                          = var.enable_pods_containers ? 1 : 0
+  count = var.enable_pods_containers ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -129,7 +129,7 @@ resource "newrelic_nrql_alert_condition" "replicaset_desired_pods" {
 
 resource "newrelic_nrql_alert_condition" "pod_not_ready" {
 
-  count                          = var.enable_pods_containers ? 1 : 0
+  count = var.enable_pods_containers ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -160,7 +160,7 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
 
 resource "newrelic_nrql_alert_condition" "pod_not_scheduled" {
 
-  count                          = var.enable_pods_containers ? 1 : 0
+  count = var.enable_pods_containers ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -191,7 +191,7 @@ resource "newrelic_nrql_alert_condition" "pod_not_scheduled" {
 
 resource "newrelic_nrql_alert_condition" "node_not_ready" {
 
-  count                          = var.enable_nodes ? 1 : 0
+  count = var.enable_nodes ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -222,7 +222,7 @@ resource "newrelic_nrql_alert_condition" "node_not_ready" {
 
 resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
 
-  count                          = var.enable_pods_containers ? 1 : 0
+  count = var.enable_pods_containers ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
@@ -253,7 +253,7 @@ resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
 
 resource "newrelic_nrql_alert_condition" "etcd_open_file_descriptors" {
 
-  count                          = var.enable_control_plane ? 1 : 0
+  count = var.enable_control_plane ? 1 : 0
 
   account_id                     = local.account_id
   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id

@@ -251,3 +251,33 @@ resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
   }
 }
 
+resource "newrelic_nrql_alert_condition" "etcd_open_file_descriptors" {
+
+  count                          = var.enable_control_plane ? 1 : 0
+
+  account_id                     = local.account_id
+  policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
+  type                           = "static"
+  name                           = "ETCD: Open File Descriptors"
+  description                    = "Alert when the open file descriptors for ETCD exceed a threshold"
+  enabled                        = true
+  violation_time_limit_seconds   = 3600
+  fill_option                    = "last_value"
+  aggregation_window             = 60
+  aggregation_method             = "event_flow"
+  aggregation_delay              = 60
+  expiration_duration            = 60
+  open_violation_on_expiration   = true
+  close_violations_on_expiration = true
+
+  nrql {
+    query = "FROM K8sEtcdSample select max(processOpenFds)/max(processMaxFds)*100 where clusterName = '${local.cluster_name}'"
+  }
+
+  critical {
+    operator              = "above"
+    threshold             = 90
+    threshold_duration    = 120
+    threshold_occurrences = "ALL"
+  }
+}

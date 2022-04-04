@@ -27,3 +27,13 @@ variable "enable_nodes" {
   EOT
   default     = true
 }
+
+variable "enable_control_plane" {
+  type        = bool
+  description = <<EOT
+    Enable control plane alerts.  Not applicable for EKS, GKE, AKS.
+
+    Default: true
+  EOT
+  default     = false
+}

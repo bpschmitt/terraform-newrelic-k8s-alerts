@@ -20,14 +20,5 @@ module "newrelic_k8s_alerts" {
     account_id = var.account_id
     enable_pods_containers = true
     enable_nodes = false
-    # enable_control_plane = false
-
-	# service = {
-	# 	name                       = "WebPortal"
-	# 	duration                   = 5
-	# 	cpu_threshold              = 90
-	# 	response_time_threshold    = 5
-	# 	error_percentage_threshold = 5
-	# 	throughput_threshold       = 5
-	# }
+    enable_control_plane = false
 }

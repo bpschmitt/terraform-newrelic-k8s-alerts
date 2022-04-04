@@ -1,6 +1,14 @@
 # terraform-newrelic-k8s-alerts
 
-## Kubernetes Default Alert Policy
+## Install
+
+```
+terraform init
+terraform plan
+terraform apply
+```
+
+## Auto-deployed Kubernetes Default Alert Policy
 
 ### Data Plane
 

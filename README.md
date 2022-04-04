@@ -1,9 +1,20 @@
 # terraform-newrelic-k8s-alerts
 
-## Install
+## Initialize module
 
 ```
 terraform init
+```
+
+## Deploy
+
+Copy `terraform.tfvars.example` to `terraform.tfvars` and updated the variables with the following info:
+
+- New Relic Account ID
+- New Relic User API Key
+- New Relic Cluster Name
+
+```
 terraform plan
 terraform apply
 ```

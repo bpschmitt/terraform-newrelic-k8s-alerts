@@ -16,6 +16,45 @@ resource "newrelic_alert_policy" "newrelic_k8s_policy" {
   name = "Kubernetes Policy - ${local.cluster_name}"
 }
 
+resource "newrelic_nrql_alert_condition" "container_restarts" {
+
+  count = var.enable_pods_containers ? 1 : 0
+
+  account_id                     = local.account_id
+  policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
+  type                           = "static"
+  name                           = "Container: High restart count"
+  description                    = "Alert when container exceeds its defined restart count threshold."
+  enabled                        = true
+  violation_time_limit_seconds   = 3600
+  fill_option                    = "last_value"
+  aggregation_window             = 60
+  aggregation_method             = "event_flow"
+  aggregation_delay              = 60
+  expiration_duration            = 60
+  open_violation_on_expiration   = true
+  close_violations_on_expiration = true
+  slide_by                       = 30
+
+  nrql {
+    query = "from K8sContainerSample select latest(restartCount) - earliest(restartCount) where clusterName = '${local.cluster_name}' facet containerName, podName"
+  }
+
+  critical {
+    operator              = "above"
+    threshold             = 3
+    threshold_duration    = 120
+    threshold_occurrences = "ALL"
+  }
+
+  warning {
+    operator              = "above"
+    threshold             = 1
+    threshold_duration    = 120
+    threshold_occurrences = "ALL"
+  }
+}
+
 resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
 
   count = var.enable_pods_containers ? 1 : 0
@@ -312,5 +351,4 @@ resource "newrelic_nrql_alert_condition" "etcd_has_leader" {
     threshold_occurrences = "ALL"
   }
 }
-
 

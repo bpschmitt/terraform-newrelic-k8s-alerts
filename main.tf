@@ -19,6 +19,6 @@ module "newrelic_k8s_alerts" {
   cluster_name           = var.cluster_name
   account_id             = var.account_id
   enable_pods_containers = true
-  enable_nodes           = false
+  enable_nodes           = true
   enable_control_plane   = false
 }

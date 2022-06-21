@@ -191,9 +191,9 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
   }
 
   critical {
-    operator              = "below"
+    operator              = "above"
     threshold             = 1
-    threshold_duration    = 120
+    threshold_duration    = 300
     threshold_occurrences = "ALL"
   }
 }

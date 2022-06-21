@@ -181,7 +181,6 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
   fill_option                    = "last_value"
   aggregation_window             = 300
   aggregation_method             = "event_timer"
-  aggregation_delay              = 300
   aggregation_timer              = 60
   open_violation_on_expiration   = false
   close_violations_on_expiration = false

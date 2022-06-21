@@ -288,7 +288,7 @@ resource "newrelic_nrql_alert_condition" "node_not_ready" {
 #     threshold_duration    = 300
 #     threshold_occurrences = "at_least_once"
 #   }
-}
+# }
 
 resource "newrelic_nrql_alert_condition" "etcd_open_file_descriptors" {
 

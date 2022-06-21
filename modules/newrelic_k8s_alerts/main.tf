@@ -14,6 +14,7 @@ locals {
 
 resource "newrelic_alert_policy" "newrelic_k8s_policy" {
   name = "Kubernetes Policy - ${local.cluster_name}"
+  incident_preference = "PER_CONDITION_AND_TARGET"
 }
 
 resource "newrelic_nrql_alert_condition" "container_restarts" {

@@ -187,7 +187,7 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
   close_violations_on_expiration = true
 
   nrql {
-    query = "FROM K8sPodSample select latest(isReady) where clusterName = '${local.cluster_name}' and status not in ('Completed','Terminated') facet podName"
+    query = "FROM K8sPodSample select latest(isReady) where clusterName = '${local.cluster_name}' and status != 'Succeeded' facet podName"
   }
 
   critical {

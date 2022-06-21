@@ -32,9 +32,9 @@ resource "newrelic_nrql_alert_condition" "container_restarts" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
   slide_by                       = 30
 
   nrql {
@@ -71,9 +71,9 @@ resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
   slide_by                       = 30
 
   nrql {
@@ -110,9 +110,9 @@ resource "newrelic_nrql_alert_condition" "container_memory_utilization" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
   slide_by                       = 30
 
   nrql {
@@ -150,9 +150,9 @@ resource "newrelic_nrql_alert_condition" "replicaset_desired_pods" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
   slide_by                       = 30
 
   nrql {
@@ -182,9 +182,9 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "FROM K8sPodSample select latest(isReady) where clusterName = '${local.cluster_name}' and status != 'Succeeded' facet podName"
@@ -213,9 +213,9 @@ resource "newrelic_nrql_alert_condition" "pod_not_scheduled" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "FROM K8sPodSample select latest(isScheduled) where clusterName = '${local.cluster_name}' facet podName"
@@ -244,9 +244,9 @@ resource "newrelic_nrql_alert_condition" "node_not_ready" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "FROM K8sNodeSample select latest(condition.Ready) where clusterName = '${local.cluster_name}' facet nodeName"
@@ -305,9 +305,9 @@ resource "newrelic_nrql_alert_condition" "etcd_open_file_descriptors" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "FROM K8sEtcdSample select max(processOpenFds)/max(processMaxFds)*100 where clusterName = '${local.cluster_name}'"
@@ -336,9 +336,9 @@ resource "newrelic_nrql_alert_condition" "etcd_has_leader" {
   aggregation_window             = 60
   aggregation_method             = "event_flow"
   aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  # expiration_duration            = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "FROM K8sEtcdSample select latest(etcdServerHasLeader) where clusterName = '${local.cluster_name}'"

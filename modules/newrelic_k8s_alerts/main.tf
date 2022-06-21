@@ -76,7 +76,7 @@ resource "newrelic_nrql_alert_condition" "container_cpu_utilization" {
   slide_by                       = 30
 
   nrql {
-    query = "from K8sContainerSample select max(cpuCoresUtilization) where clusterName = '${local.cluster_name}' facet containerName, podName"
+    query = "from K8sContainerSample select max(cpuCoresUtilization) where clusterName = '${local.cluster_name}' and status = 'Running' facet containerName, podName"
   }
 
   critical {
@@ -115,7 +115,7 @@ resource "newrelic_nrql_alert_condition" "container_memory_utilization" {
   slide_by                       = 30
 
   nrql {
-    query = "from K8sContainerSample select max(memoryWorkingSetUtilization) where clusterName = '${local.cluster_name}' and status not in ('Terminated','Completed') facet containerName, podName"
+    query = "from K8sContainerSample select max(memoryWorkingSetUtilization) where clusterName = '${local.cluster_name}' and status = 'Running' facet containerName, podName"
   }
 
   critical {

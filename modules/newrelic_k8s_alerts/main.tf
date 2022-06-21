@@ -179,20 +179,21 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
   enabled                        = true
   violation_time_limit_seconds   = 3600
   fill_option                    = "last_value"
-  aggregation_window             = 300
-  aggregation_method             = "event_timer"
-  aggregation_timer              = 60
-  open_violation_on_expiration   = false
-  close_violations_on_expiration = false
+  aggregation_window             = 60
+  aggregation_method             = "event_flow"
+  aggregation_delay              = 60
+  expiration_duration            = 60
+  open_violation_on_expiration   = true
+  close_violations_on_expiration = true
 
   nrql {
     query = "FROM K8sPodSample select latest(isReady) where clusterName = '${local.cluster_name}' and status not in ('Completed','Terminated') facet podName"
   }
 
   critical {
-    operator              = "above"
+    operator              = "below"
     threshold             = 1
-    threshold_duration    = 300
+    threshold_duration    = 120
     threshold_occurrences = "ALL"
   }
 }
@@ -271,12 +272,11 @@ resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
   enabled                        = true
   violation_time_limit_seconds   = 3600
   fill_option                    = "last_value"
-  aggregation_window             = 60
-  aggregation_method             = "event_flow"
-  aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  aggregation_window             = 300
+  aggregation_method             = "event_timer"
+  aggregation_timer              = 60
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "from InfrastructureEvent select latest(event.count) - earliest(old_event.count) where event.message like '%Liveness probe failed%' and clusterName = '${local.cluster_name}' facet entityName"
@@ -285,7 +285,7 @@ resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
   critical {
     operator              = "above"
     threshold             = 1
-    threshold_duration    = 120
+    threshold_duration    = 300
     threshold_occurrences = "at_least_once"
   }
 }

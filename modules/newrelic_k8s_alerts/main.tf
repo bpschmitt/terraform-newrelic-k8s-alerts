@@ -260,34 +260,34 @@ resource "newrelic_nrql_alert_condition" "node_not_ready" {
   }
 }
 
-resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
+# resource "newrelic_nrql_alert_condition" "liveness_probe_failure" {
 
-  count = var.enable_pods_containers ? 1 : 0
+#   count = var.enable_pods_containers ? 1 : 0
 
-  account_id                     = local.account_id
-  policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
-  type                           = "static"
-  name                           = "Liveness Probe Failed"
-  description                    = "Alert when the liveness probe for a container fails"
-  enabled                        = true
-  violation_time_limit_seconds   = 3600
-  fill_option                    = "last_value"
-  aggregation_window             = 300
-  aggregation_method             = "event_timer"
-  aggregation_timer              = 60
-  open_violation_on_expiration   = false
-  close_violations_on_expiration = false
+#   account_id                     = local.account_id
+#   policy_id                      = newrelic_alert_policy.newrelic_k8s_policy.id
+#   type                           = "static"
+#   name                           = "Liveness Probe Failed"
+#   description                    = "Alert when the liveness probe for a container fails"
+#   enabled                        = true
+#   violation_time_limit_seconds   = 3600
+#   fill_option                    = "last_value"
+#   aggregation_window             = 300
+#   aggregation_method             = "event_timer"
+#   aggregation_timer              = 60
+#   open_violation_on_expiration   = false
+#   close_violations_on_expiration = false
 
-  nrql {
-    query = "from InfrastructureEvent select latest(event.count) - earliest(old_event.count) where event.message like '%Liveness probe failed%' and clusterName = '${local.cluster_name}' facet entityName"
-  }
+#   nrql {
+#     query = "from InfrastructureEvent select latest(event.count) - earliest(old_event.count) where event.message like '%Liveness probe failed%' and clusterName = '${local.cluster_name}' facet entityName"
+#   }
 
-  critical {
-    operator              = "above"
-    threshold             = 1
-    threshold_duration    = 300
-    threshold_occurrences = "at_least_once"
-  }
+#   critical {
+#     operator              = "above"
+#     threshold             = 1
+#     threshold_duration    = 300
+#     threshold_occurrences = "at_least_once"
+#   }
 }
 
 resource "newrelic_nrql_alert_condition" "etcd_open_file_descriptors" {

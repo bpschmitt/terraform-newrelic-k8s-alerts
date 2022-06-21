@@ -179,12 +179,11 @@ resource "newrelic_nrql_alert_condition" "pod_not_ready" {
   enabled                        = true
   violation_time_limit_seconds   = 3600
   fill_option                    = "last_value"
-  aggregation_window             = 60
-  aggregation_method             = "event_flow"
-  aggregation_delay              = 60
-  expiration_duration            = 60
-  open_violation_on_expiration   = true
-  close_violations_on_expiration = true
+  aggregation_window             = 300
+  aggregation_method             = "event_timer"
+  aggregation_delay              = 300
+  open_violation_on_expiration   = false
+  close_violations_on_expiration = false
 
   nrql {
     query = "FROM K8sPodSample select latest(isReady) where clusterName = '${local.cluster_name}' and status not in ('Completed','Terminated') facet podName"

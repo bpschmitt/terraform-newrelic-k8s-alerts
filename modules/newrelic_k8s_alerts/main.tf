@@ -43,7 +43,7 @@ resource "newrelic_nrql_alert_condition" "container_restarts" {
 
   critical {
     operator              = "above"
-    threshold             = 0
+    threshold             = 3
     threshold_duration    = 120
     threshold_occurrences = "ALL"
   }

@@ -38,12 +38,12 @@ resource "newrelic_nrql_alert_condition" "container_restarts" {
   slide_by                       = 30
 
   nrql {
-    query = "from K8sContainerSample select latest(restartCount) - earliest(restartCount) where clusterName = '${local.cluster_name}' facet containerName, podName"
+    query = "FROM K8sContainerSample select rate(sum(restartCountDelta), 1 minute) where clusterName = '${local.cluster_name}' facet containerName, podName"
   }
 
   critical {
     operator              = "above"
-    threshold             = 3
+    threshold             = 0
     threshold_duration    = 120
     threshold_occurrences = "ALL"
   }
